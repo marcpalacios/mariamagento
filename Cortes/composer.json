@@ -1,0 +1,34 @@
+{
+    "name": "hiberus/cortes",
+    "description": "Cortes module",
+    "keywords": [
+        "php",
+        "magento",
+        "magento2",
+        "cortes",
+        "data model",
+        "persistence"
+    ],
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "*"
+    },
+    "version": "0.1.0",
+    "license": [
+        "MIT"
+    ],
+    "authors": [
+        {
+            "name": "Maria Cortes Palacios",
+            "email": "mariacortespalacios@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Hiberus\\Cortes\\": ""
+        }
+    }
+}

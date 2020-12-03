@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Preference for Reverse Dependency -->
+    <preference for="Hiberus\Cortes\Api\Data\ExamInterface" type="Hiberus\Cortes\Model\Exam"/>
+    <preference for="Hiberus\Cortes\Api\ExamRepositoryInterface" type="Hiberus\Cortes\Model\ExamRepository"/>
+    <preference for="Hiberus\Cortes\Api\Data\ExamSearchResultsInterface" type="Hiberus\Cortes\Model\ExamSearchResults" />
+
+    <!-- Register the Abstract Repositories -->
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Hiberus\Cortes\Api\ExamInterface" xsi:type="string">Hiberus\Cortes\Api\ExamRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Hiberus\Cortes\Api\Data\ExamInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">hiberus_exam</item>
+                    <item name="identifierField" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Register the hydrator strategy for our entities -->
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Hiberus\Cortes\Api\Data\ExamInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Proxy -->
+    <type name="Hiberus\Cortes\Helper\FastLoading">
+        <arguments>
+            <argument name="slowLoading" xsi:type="object">Hiberus\Cortes\Helper\SlowLoading\Proxy</argument>
+        </arguments>
+    </type>
+
+    <!-- Logger -->
+    <virtualType name="Hiberus\Cortes\Logger\CortesDebug" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/hiberus_cortes.log</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Hiberus\Cortes\Logger\Monolog" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Hiberus\Cortes\Logger\CortesDebug</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Hiberus\Cortes\Logger\CortesLogger">
+        <arguments>
+            <argument name="logger" xsi:type="object">Hiberus\Cortes\Logger\Monolog</argument>
+        </arguments>
+    </type>
+</config>
